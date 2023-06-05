@@ -64,35 +64,27 @@ import datetime
 # Здесь пишем код
 
 def func_log(file_log='log.txt'):
-    def func1(func):
-        def wrapper(*args, **kwargs):
+    def decor(func):
+        def wrapper():
             with open(file_log, "a", encoding="utf-8") as f:
-                f.write(f"{func1.__name__} вызвана {datetime.datetime.now().strftime('%d.%m %H:%M:%S')}\n")
+                f.write(f"{func.__name__} вызвана {datetime.datetime.now().strftime('%d.%m %H:%M:%S')}\n")
             return func
         return wrapper
-    return func1
+    return decor
 
-def func_log2(file_log='func2.txt'):
-    def func2(func):
-        def wrapper(*args, **kwargs):
-            with open(file_log, "a", encoding="utf-8") as f:
-                f.write(f"{func2.__name__} вызвана {datetime.datetime.now().strftime('%d.%m %H:%M:%S')}\n")
-            return func
-        return wrapper
-    return func2
 
-@func_log(file_log='log.txt')
+@func_log()
 def func1():
     print("Расширяем функцию, на запись не влияет")
 
-@func_log2(file_log='func2.txt')
+@func_log(file_log='func2.txt')
 def func2():
     print("Расширяем функцию, на запись не влияет")
+
 
 func1()
 func2()
 func1()
-
 
 
 # Дан файл test_file/task_3.txt можно считать, что это запись покупок в магазине, где указана только цена товара
